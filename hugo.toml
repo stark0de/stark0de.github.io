@@ -1,0 +1,105 @@
+baseurl      = "localhost"
+title        = "stark0de"
+languageCode = "en-us"
+theme        = "hugo-theme-hello-friend-ng"
+baseURL = "https://stark0de.com"
+pagination.pagerSize     = 10
+
+[params]
+  dateform        = "Jan 2, 2006"
+  dateformShort   = "Jan 2"
+  dateformNum     = "2006-01-02"
+  dateformNumTime = "2006-01-02 15:04"
+  mainSections = ["research"]
+
+  # Subtitle for home
+  homeSubtitle = "Security research, red teaming and pentesting"
+
+  # Set disableReadOtherPosts to true in order to hide the links to other posts.
+  disableReadOtherPosts = false
+
+  # Enable sharing buttons, if you like
+  enableSharingButtons = true
+  
+  # Show a global language switcher in the navigation bar
+  enableGlobalLanguageMenu = true
+
+  # Metadata mostly used in document's head
+  description = "My new homepage or blog"
+  keywords = "homepage, blog"
+  images = [""]
+
+[taxonomies]
+    category = "blog"
+    tag      = "tags"
+    series   = "series"
+
+[languages]
+  [languages.en]
+    title = "Daniel Monzón - stark0de"
+    keywords = ""
+    copyright = '<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a>'
+    readOtherPosts = "Read other posts"
+
+  [languages.en.params]
+    subtitle  = "A simple theme for Hugo"
+
+    [languages.en.params.logo]
+      logoText = "stark0de"
+      logoHomeLink = "/"
+    # or
+    #
+    # path = "/img/profile.png"
+    # alt = "Your example logo alt text"
+  [languages.en.params.portrait]
+    path = "/img/profile.png"
+    alt = "stark0de"
+    maxWidth = "150px"
+
+
+  # And you can even create generic menu
+  [[menu.main]]
+    identifier = "research"
+    name       = "Research"
+    url        = "/research"
+
+ [[menu.main]]
+    identifier = "exploits"
+    name       = "Exploits"
+    url        = "/exploits"
+ [[menu.main]]
+    identifier = "talks"
+    name       = "Talks"
+    url        = "/talks"
+ [[menu.main]]
+    identifier = "services"
+    name       = "My services"
+    url        = "/services"
+
+  [[menu.main]]
+    identifier  = "aboutme"
+    name        = "About me"
+    url         = "/about"
+
+
+[[params.social]]
+  name = "linkedin"
+  url = "https://www.linkedin.com/in/daniel-monz%C3%B3n-peso-7a64a6175/"
+
+[[params.social]]
+  name = "github"
+  url = "https://github.com/stark0de"
+
+[[params.social]]
+  name = "twitter"
+  url = "https://x.com/stark0de1"
+
+[[params.social]]
+  name = "email"
+  url = "mailto:daniel.monzonpeso@gmail.com"
+
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true

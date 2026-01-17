@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="">
+<meta name="description" content="Note This article is a summary of research originally published in Spanish at Deep Hacking.
+Overview This research explores an interesting discovery made while studying Windows process access rights and protected processes. The investigation led to accidentally suspending Windows Defender&rsquo;s main process (MsMpEng.exe) and causing explorer.exe to crash - all through legitimate use of Windows API calls.
+Background: Protected Processes in Windows Windows implements a security mechanism called &ldquo;Protected Processes&rdquo; that prevents even administrator-level users from tampering with critical system processes. Many system processes, antivirus solutions, and EDRs use this protection level, including Windows Defender.
+" />
+<meta name="keywords" content="homepage, blog, windows-internals, windows-defender, vulnerability-research, protected-processes" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="//localhost:1313/research/windows-defender-crash/" />
+
+
+    <title>
+        
+            How to Accidentally Crash Windows Defender (and Explorer.exe) - Research Summary :: Daniel Monzón - stark0de  — A simple theme for Hugo
+        
+    </title>
+
+
+
+
+
+  <link rel="stylesheet" href="/main.min.7289daf2e88ea2c7b253a51cc5794c7cc17e7aeb7295a19d978db764a5862f25.css" integrity="sha256-cona8uiOoseyU6UcxXlMfMF&#43;eutylaGdl423ZKWGLyU=" crossorigin="anonymous">
+
+
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="msapplication-TileColor" content="">
+
+
+
+  <meta itemprop="name" content="How to Accidentally Crash Windows Defender (and Explorer.exe) - Research Summary">
+  <meta itemprop="description" content="Note This article is a summary of research originally published in Spanish at Deep Hacking.
+Overview This research explores an interesting discovery made while studying Windows process access rights and protected processes. The investigation led to accidentally suspending Windows Defender’s main process (MsMpEng.exe) and causing explorer.exe to crash - all through legitimate use of Windows API calls.
+Background: Protected Processes in Windows Windows implements a security mechanism called “Protected Processes” that prevents even administrator-level users from tampering with critical system processes. Many system processes, antivirus solutions, and EDRs use this protection level, including Windows Defender.">
+  <meta itemprop="datePublished" content="2022-11-21T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2022-11-21T00:00:00+00:00">
+  <meta itemprop="wordCount" content="530">
+  <meta itemprop="image" content="//localhost:1313/">
+  <meta itemprop="keywords" content="Windows-Internals,Windows-Defender,Vulnerability-Research,Protected-Processes">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="//localhost:1313/">
+  <meta name="twitter:title" content="How to Accidentally Crash Windows Defender (and Explorer.exe) - Research Summary">
+  <meta name="twitter:description" content="Note This article is a summary of research originally published in Spanish at Deep Hacking.
+Overview This research explores an interesting discovery made while studying Windows process access rights and protected processes. The investigation led to accidentally suspending Windows Defender’s main process (MsMpEng.exe) and causing explorer.exe to crash - all through legitimate use of Windows API calls.
+Background: Protected Processes in Windows Windows implements a security mechanism called “Protected Processes” that prevents even administrator-level users from tampering with critical system processes. Many system processes, antivirus solutions, and EDRs use this protection level, including Windows Defender.">
+
+
+
+    <meta property="og:url" content="//localhost:1313/research/windows-defender-crash/">
+  <meta property="og:site_name" content="Daniel Monzón - stark0de">
+  <meta property="og:title" content="How to Accidentally Crash Windows Defender (and Explorer.exe) - Research Summary">
+  <meta property="og:description" content="Note This article is a summary of research originally published in Spanish at Deep Hacking.
+Overview This research explores an interesting discovery made while studying Windows process access rights and protected processes. The investigation led to accidentally suspending Windows Defender’s main process (MsMpEng.exe) and causing explorer.exe to crash - all through legitimate use of Windows API calls.
+Background: Protected Processes in Windows Windows implements a security mechanism called “Protected Processes” that prevents even administrator-level users from tampering with critical system processes. Many system processes, antivirus solutions, and EDRs use this protection level, including Windows Defender.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="research">
+    <meta property="article:published_time" content="2022-11-21T00:00:00+00:00">
+    <meta property="article:modified_time" content="2022-11-21T00:00:00+00:00">
+    <meta property="article:tag" content="Windows-Internals">
+    <meta property="article:tag" content="Windows-Defender">
+    <meta property="article:tag" content="Vulnerability-Research">
+    <meta property="article:tag" content="Protected-Processes">
+    <meta property="og:image" content="//localhost:1313/">
+
+
+
+
+    <meta property="article:section" content="research" />
+
+
+
+    <meta property="article:published_time" content="2022-11-21 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text ">
+                stark0de</span>
+            <span class="logo__cursor" style=
+                  "
+                   
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+                <nav class="menu">
+    <ul class="menu__inner">
+                <li><a href="/about">About me</a></li>
+            
+                <li><a href="/exploits">Exploits</a></li>
+            
+                <li><a href="/research">Research</a></li>
+            
+                <li><a href="/services">My services</a></li>
+            
+                <li><a href="/talks">Talks</a></li>
+            
+        <ul class="submenu">
+            <li class="dropdown">
+                <a href="javascript:void(0)" class="dropbtn">en</a>
+                <div class="dropdown-content">
+                </div>
+            </li>
+        </ul>
+    </ul>
+</nav>
+
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+        </span>
+    </span>
+</header>
+
+
+            
+    <div class="content">
+        <main class="post">
+
+            <div class="post-info">
+                
+                </p>
+            </div>
+
+            <article>
+                <h2 class="post-title"><a href="//localhost:1313/research/windows-defender-crash/">How to Accidentally Crash Windows Defender (and Explorer.exe) - Research Summary</a></h2>
+
+                
+                
+                
+
+                <div class="post-content">
+                    <h2 id="note">Note</h2>
+<p><strong>This article is a summary of research originally published in Spanish</strong> at <a href="https://blog.deephacking.tech/es/posts/como-cargarse-windows-defender-sin-querer/">Deep Hacking</a>.</p>
+<hr>
+<h2 id="overview">Overview</h2>
+<p>This research explores an interesting discovery made while studying Windows process access rights and protected processes. The investigation led to accidentally suspending Windows Defender&rsquo;s main process (MsMpEng.exe) and causing explorer.exe to crash - all through legitimate use of Windows API calls.</p>
+<hr>
+<h2 id="background-protected-processes-in-windows">Background: Protected Processes in Windows</h2>
+<p>Windows implements a security mechanism called &ldquo;Protected Processes&rdquo; that prevents even administrator-level users from tampering with critical system processes. Many system processes, antivirus solutions, and EDRs use this protection level, including Windows Defender.</p>
+<h3 id="understanding-process-access-rights">Understanding Process Access Rights</h3>
+<p>When attempting to open a handle to a process using the <code>OpenProcess</code> Windows API function, different access rights can be requested. For protected processes, most access rights are denied by default, even with administrator privileges.</p>
+<hr>
+<h2 id="the-discovery">The Discovery</h2>
+<p>While researching which access rights are permitted against protected processes, it was discovered that the following rights are <strong>not explicitly prohibited</strong>:</p>
+<ul>
+<li><code>SYNCHRONIZE</code></li>
+<li><code>PROCESS_SUSPEND_RESUME</code></li>
+<li><code>PROCESS_QUERY_LIMITED_INFORMATION</code></li>
+</ul>
+<p>Among these, <code>PROCESS_SUSPEND_RESUME</code> stood out as particularly interesting for security research.</p>
+<hr>
+<h2 id="the-experiment">The Experiment</h2>
+<h3 id="suspending-windows-defender">Suspending Windows Defender:</h3>
+<p>Using the <code>PROCESS_SUSPEND_RESUME</code> access right, it was possible to suspend the Windows Defender service process (MsMpEng.exe). The unexpected side effects were:</p>
+<ol>
+<li><strong>Windows Defender remained suspended</strong> - The process entered a suspended state</li>
+<li><strong>Explorer.exe crashed</strong> - The graphical environment hung, with only the cmd window remaining functional</li>
+</ol>
+<h3 id="verification-with-dtrace">Verification with DTrace:</h3>
+<p>To verify the process suspension, DTrace (an open-source tool with a Windows version) was used to log system calls made by the process. After an initial period of no system calls (expected for a suspended process), MsMpEng.exe surprisingly began making system calls again, possibly due to driver-level interactions invisible to user-mode tools.</p>
+<hr>
+<h2 id="investigation-into-explorerexe-crash">Investigation into Explorer.exe Crash:</h2>
+<p>Initial hypothesis suggested there might be an open handle from MsMpEng to explorer.exe, but analysis of MsMpEng&rsquo;s handles showed only self-references. The exact cause of the explorer.exe crash remains unclear and is left open for further research.</p>
+<hr>
+<h2 id="technical-details">Technical Details:</h2>
+<h3 id="key-windows-concepts">Key Windows Concepts:</h3>
+<ul>
+<li><strong>Handles</strong>: Identifiers required to access objects in Windows</li>
+<li><strong>Objects</strong>: In Windows, everything is an object (similar to &ldquo;everything is a file&rdquo; in Linux)</li>
+<li><strong>EPROCESS</strong>: The kernel object representing a process</li>
+<li><strong>Protected Processes</strong>: Security mechanism preventing tampering with critical processes</li>
+</ul>
+<h3 id="access-rights-documentation">Access Rights Documentation:</h3>
+<p>Complete documentation on process security and access rights: <a href="https://learn.microsoft.com/en-us/windows/win32/procthread/process-security-and-access-rights">Microsoft Process Security Documentation</a></p>
+<hr>
+<h2 id="impact-and-conclusions">Impact and Conclusions:</h2>
+<p>This research demonstrates that even with Windows&rsquo; protected process mechanisms, there are edge cases where legitimate API calls can be used to disrupt critical system services - albeit requiring administrator privileges.</p>
+<p><strong>Key Takeaways:</strong></p>
+<ul>
+<li>Protected processes aren&rsquo;t entirely immune to interference</li>
+<li>Administrator privileges can still impact protected processes in specific ways</li>
+<li>The interaction between suspended protected processes and the Windows GUI warrants further investigation</li>
+</ul>
+<hr>
+<h2 id="related-research">Related Research:</h2>
+<p>For more advanced techniques working with protected processes and anti-malware solutions, see:</p>
+<ul>
+<li><a href="https://medium.com/@ashabdalhalim/a-light-on-windows-10s-object-header-typeindex-value-e8f907e7073a">Reversing Windows Internals - Handles, Callbacks &amp; ObjectTypes</a></li>
+<li><a href="https://github.com/Yaxser/Backstab">Backstab - A tool to kill antimalware protected processes</a></li>
+</ul>
+<hr>
+<h2 id="additional-resources">Additional Resources:</h2>
+<p>The original article (in Spanish) contains more technical details, code snippets, and screenshots. The author plans to release a tool for experimentation in the future.</p>
+<p><strong>Original Article</strong>: <a href="https://blog.deephacking.tech/es/posts/como-cargarse-windows-defender-sin-querer/">Cómo cargarse Windows Defender (sin querer)</a></p>
+<hr>
+<p><em>This summary is provided in English for accessibility. For the complete technical implementation and Spanish-language documentation, please visit the original article.</em></p>
+
+                </div>
+            </article>
+
+            <hr />
+
+            <div class="post-info">
+                
+    <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg>
+
+        <span class="tag"><a href="//localhost:1313/tags/windows-internals/">windows-internals</a></span>
+        <span class="tag"><a href="//localhost:1313/tags/windows-defender/">windows-defender</a></span>
+        <span class="tag"><a href="//localhost:1313/tags/vulnerability-research/">vulnerability-research</a></span>
+        <span class="tag"><a href="//localhost:1313/tags/protected-processes/">protected-processes</a></span>
+        
+    </p>
+
+                
+    <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-folder meta-icon"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+
+        <span class="tag"><a href="//localhost:1313/categories/research/">research</a></span>
+        
+    </p>
+
+            </div>
+        </main>
+    </div>
+
+
+            
+                <footer class="footer">
+    
+    
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+<script type="text/javascript" src="/bundle.min.08b680078a3cf9c69e3dd217a5aa52cfddd4a1d850f8cdff127fdd7421a71f8b2b474be69386f67819edace92273916e7230c9054f38107db9dc6730b3530ab5.js" integrity="sha512-CLaAB4o8&#43;caePdIXpapSz93UodhQ&#43;M3/En/ddCGnH4srR0vmk4b2eBntrOkic5FucjDJBU84EH253Gcws1MKtQ=="></script>
+
+
+
+
+    </body>
+</html>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Security on Daniel Monzón - stark0de</title>
+    <link>//localhost:1313/tags/security/</link>
+    <description>Recent content in Security on Daniel Monzón - stark0de</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
+    <lastBuildDate>Sat, 17 Jan 2026 10:00:00 +0100</lastBuildDate>
+    <atom:link href="//localhost:1313/tags/security/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>My First Security Research Post</title>
+      <link>//localhost:1313/research/test-post/</link>
+      <pubDate>Sat, 17 Jan 2026 10:00:00 +0100</pubDate>
+      <guid>//localhost:1313/research/test-post/</guid>
+      <description>&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;&#xA;&lt;p&gt;This is a test post about security research.&lt;/p&gt;&#xA;&lt;h3 id=&#34;key-findings&#34;&gt;Key Findings&lt;/h3&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Finding 1&lt;/li&gt;&#xA;&lt;li&gt;Finding 2&lt;/li&gt;&#xA;&lt;li&gt;Finding 3&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h2&gt;&#xA;&lt;p&gt;Your conclusions here&amp;hellip;&lt;/p&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;&#xA;## 3. Estructura de carpetas&#xA;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;content/&#xA;├── research/&#xA;│   └── test-post.md        # &amp;lt;- Tu nuevo post&#xA;├── exploits/&#xA;│   └── _index.md&#xA;├── talks/&#xA;│   └── _index.md&#xA;├── services/&#xA;│   └── _index.md&#xA;└── about.md&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

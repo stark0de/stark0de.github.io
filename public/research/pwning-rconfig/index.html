@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="">
+<meta name="description" content="Part I: Initial Vulnerability Discovery I recently conducted a security assessment of rConfig version 3.9.5 (www.rconfig.com), a network monitoring tool, and discovered several critical vulnerabilities. This is the first part of a multi-part series detailing these findings.
+Local File Inclusion (LFI): Location: /lib/crud/configcompare.crud.php
+When comparing the path_a parameter to path_b, the file specified in path_a is disclosed if both files are completely different. The following example demonstrates reading /etc/passwd:
+Arbitrary File Deletion: Location: /lib/ajaxHandlers/ajaxDeleteAllLoggingFiles.php
+" />
+<meta name="keywords" content="homepage, blog, vulnerability-research, rce, web-security, cve" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="//localhost:1313/research/pwning-rconfig/" />
+
+
+    <title>
+        
+            Pwning rConfig: Multiple Vulnerabilities and RCE Chains :: Daniel Monzón - stark0de  — A simple theme for Hugo
+        
+    </title>
+
+
+
+
+
+  <link rel="stylesheet" href="/main.min.7289daf2e88ea2c7b253a51cc5794c7cc17e7aeb7295a19d978db764a5862f25.css" integrity="sha256-cona8uiOoseyU6UcxXlMfMF&#43;eutylaGdl423ZKWGLyU=" crossorigin="anonymous">
+
+
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="msapplication-TileColor" content="">
+
+
+
+  <meta itemprop="name" content="Pwning rConfig: Multiple Vulnerabilities and RCE Chains">
+  <meta itemprop="description" content="Part I: Initial Vulnerability Discovery I recently conducted a security assessment of rConfig version 3.9.5 (www.rconfig.com), a network monitoring tool, and discovered several critical vulnerabilities. This is the first part of a multi-part series detailing these findings.
+Local File Inclusion (LFI): Location: /lib/crud/configcompare.crud.php
+When comparing the path_a parameter to path_b, the file specified in path_a is disclosed if both files are completely different. The following example demonstrates reading /etc/passwd:
+Arbitrary File Deletion: Location: /lib/ajaxHandlers/ajaxDeleteAllLoggingFiles.php">
+  <meta itemprop="datePublished" content="2020-08-27T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2020-08-27T00:00:00+00:00">
+  <meta itemprop="wordCount" content="361">
+  <meta itemprop="image" content="//localhost:1313/">
+  <meta itemprop="keywords" content="Vulnerability-Research,Rce,Web-Security,Cve">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="//localhost:1313/">
+  <meta name="twitter:title" content="Pwning rConfig: Multiple Vulnerabilities and RCE Chains">
+  <meta name="twitter:description" content="Part I: Initial Vulnerability Discovery I recently conducted a security assessment of rConfig version 3.9.5 (www.rconfig.com), a network monitoring tool, and discovered several critical vulnerabilities. This is the first part of a multi-part series detailing these findings.
+Local File Inclusion (LFI): Location: /lib/crud/configcompare.crud.php
+When comparing the path_a parameter to path_b, the file specified in path_a is disclosed if both files are completely different. The following example demonstrates reading /etc/passwd:
+Arbitrary File Deletion: Location: /lib/ajaxHandlers/ajaxDeleteAllLoggingFiles.php">
+
+
+
+    <meta property="og:url" content="//localhost:1313/research/pwning-rconfig/">
+  <meta property="og:site_name" content="Daniel Monzón - stark0de">
+  <meta property="og:title" content="Pwning rConfig: Multiple Vulnerabilities and RCE Chains">
+  <meta property="og:description" content="Part I: Initial Vulnerability Discovery I recently conducted a security assessment of rConfig version 3.9.5 (www.rconfig.com), a network monitoring tool, and discovered several critical vulnerabilities. This is the first part of a multi-part series detailing these findings.
+Local File Inclusion (LFI): Location: /lib/crud/configcompare.crud.php
+When comparing the path_a parameter to path_b, the file specified in path_a is disclosed if both files are completely different. The following example demonstrates reading /etc/passwd:
+Arbitrary File Deletion: Location: /lib/ajaxHandlers/ajaxDeleteAllLoggingFiles.php">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="research">
+    <meta property="article:published_time" content="2020-08-27T00:00:00+00:00">
+    <meta property="article:modified_time" content="2020-08-27T00:00:00+00:00">
+    <meta property="article:tag" content="Vulnerability-Research">
+    <meta property="article:tag" content="Rce">
+    <meta property="article:tag" content="Web-Security">
+    <meta property="article:tag" content="Cve">
+    <meta property="og:image" content="//localhost:1313/">
+
+
+
+
+    <meta property="article:section" content="research" />
+
+
+
+    <meta property="article:published_time" content="2020-08-27 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text ">
+                stark0de</span>
+            <span class="logo__cursor" style=
+                  "
+                   
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+                <nav class="menu">
+    <ul class="menu__inner">
+                <li><a href="/about">About me</a></li>
+            
+                <li><a href="/exploits">Exploits</a></li>
+            
+                <li><a href="/research">Research</a></li>
+            
+                <li><a href="/services">My services</a></li>
+            
+                <li><a href="/talks">Talks</a></li>
+            
+        <ul class="submenu">
+            <li class="dropdown">
+                <a href="javascript:void(0)" class="dropbtn">en</a>
+                <div class="dropdown-content">
+                </div>
+            </li>
+        </ul>
+    </ul>
+</nav>
+
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+        </span>
+    </span>
+</header>
+
+
+            
+    <div class="content">
+        <main class="post">
+
+            <div class="post-info">
+                
+                </p>
+            </div>
+
+            <article>
+                <h2 class="post-title"><a href="//localhost:1313/research/pwning-rconfig/">Pwning rConfig: Multiple Vulnerabilities and RCE Chains</a></h2>
+
+                
+                
+                
+
+                <div class="post-content">
+                    <h2 id="part-i-initial-vulnerability-discovery">Part I: Initial Vulnerability Discovery</h2>
+<p>I recently conducted a security assessment of rConfig version 3.9.5 (<a href="http://www.rconfig.com/">www.rconfig.com</a>), a network monitoring tool, and discovered several critical vulnerabilities. This is the first part of a multi-part series detailing these findings.</p>
+<hr>
+<h3 id="local-file-inclusion-lfi">Local File Inclusion (LFI):</h3>
+<p><strong>Location</strong>: <code>/lib/crud/configcompare.crud.php</code></p>
+<p>When comparing the <code>path_a</code> parameter to <code>path_b</code>, the file specified in <code>path_a</code> is disclosed if both files are completely different. The following example demonstrates reading <code>/etc/passwd</code>:</p>
+<img src="/research/rconfig/lfi-config-1.png" alt="LFI Configuration Compare" style="max-width: 800px;">
+<br><br>
+<img src="/research/rconfig/lfi-config-2.png" alt="LFI /etc/passwd disclosure">
+<hr>
+<h3 id="arbitrary-file-deletion">Arbitrary File Deletion:</h3>
+<p><strong>Location</strong>: <code>/lib/ajaxHandlers/ajaxDeleteAllLoggingFiles.php</code></p>
+<p>This vulnerability allows deletion of any file by specifying:</p>
+<ul>
+<li>The file path using the <code>path</code> parameter</li>
+<li>The file extension using the <code>ext</code> parameter</li>
+</ul>
+<p><img src="/research/rconfig/file-delete-1.png" alt="File deletion request"></p>
+<p><img src="/research/rconfig/file-delete-2.png" alt="File deletion confirmation"></p>
+<hr>
+<h3 id="server-side-request-forgery-ssrf">Server-Side Request Forgery (SSRF):</h3>
+<p><strong>Location</strong>: <code>/lib/ajaxHandlers/ajaxDeviceStatus.php</code></p>
+<p>An attacker can establish connections to internal services using:</p>
+<ul>
+<li><code>deviceIpAddr</code> parameter for the target</li>
+<li><code>connPort</code> parameter for the port</li>
+</ul>
+<p><img src="/research/rconfig/ssrf-request.png" alt="SSRF request"></p>
+<p><strong>Open port response:</strong></p>
+<p><img src="/research/rconfig/ssrf-open-port.png" alt="SSRF open port"></p>
+<hr>
+<h3 id="cross-site-scripting-xss-vulnerabilities">Cross-Site Scripting (XSS) Vulnerabilities:</h3>
+<h4 id="xss-1---device-management">XSS #1 - Device Management:</h4>
+<p><strong>Location</strong>: <code>/devices.php</code> &gt; Add device</p>
+<ol>
+<li>Inject payload <code>&lt;svg onload=alert(1)&gt;</code> in the Model field</li>
+<li>Fill remaining required fields</li>
+<li>Click Save</li>
+<li>Visit <code>/devicemgmt.php?deviceId=1&amp;device=devicename</code></li>
+</ol>
+<img src="/research/rconfig/xss-device.png" alt="XSS in device management" style="max-width: 800px;">
+<h4 id="xss-2---commands">XSS #2 - Commands:</h4>
+<p><strong>Location</strong>: <code>/commands.php</code> &gt; Add command</p>
+<ol>
+<li>Inject payload <code>&lt;svg onload=alert(1)&gt;</code> in the Command field</li>
+<li>Click Save</li>
+</ol>
+<p><img src="/research/rconfig/xss-command.png" alt="XSS in commands"></p>
+<h4 id="xss-3---snippets">XSS #3 - Snippets:</h4>
+<p><strong>Location</strong>: <code>/snippets.php</code> &gt; Add snippet</p>
+<ol>
+<li>Inject payload <code>&lt;svg onload=alert(1)&gt;</code> in the Snippet field</li>
+<li>Fill remaining required fields</li>
+<li>Click Save</li>
+</ol>
+<p><img src="/research/rconfig/xss-snippet.png" alt="XSS in snippets"></p>
+<hr>
+<h3 id="privilege-escalation-vulnerabilities">Privilege Escalation Vulnerabilities:</h3>
+<h4 id="method-1-using-sudo-zip">Method #1: Using sudo zip</h4>
+<p><img src="/research/rconfig/privesc-zip.png" alt="Privilege escalation via zip"></p>
+<h4 id="method-2-using-sudo-crontab">Method #2: Using sudo crontab</h4>
+<p>Execute <code>sudo crontab -e</code> and then escape to shell with <code>:!/bin/bash</code></p>
+<h4 id="method-3-arbitrary-file-read">Method #3: Arbitrary File Read</h4>
+<p>Leverage sudo permissions with tail following <a href="https://gtfobins.github.io/gtfobins/tail/">GTFOBins documentation</a></p>
+<hr>
+<h2 id="part-ii-authentication-bypass-and-remote-code-execution">Part II: Authentication Bypass and Remote Code Execution</h2>
+<p>Following the initial vulnerability disclosure, I discovered three authenticated Remote Code Execution (RCE) vulnerabilities along with two authentication bypass methods (one leveraging information disclosure).</p>
+<p><strong>Important Note</strong>: Many previously disclosed vulnerabilities (with assigned CVEs) remained present in version 3.9.5, providing additional exploitation vectors.</p>
+<h3 id="full-technical-details">Full Technical Details:</h3>
+<p>Complete technical analysis and proof-of-concept exploits are available in the SSD Advisory:</p>
+<p><strong><a href="https://ssd-disclosure.com/ssd-advisory-rconfig-unauthenticated-rce/">SSD Advisory - rConfig Unauthenticated RCE</a></strong></p>
+<hr>
+<h2 id="impact-summary">Impact Summary:</h2>
+<p>The combination of these vulnerabilities allows for:</p>
+<ul>
+<li>Unauthenticated remote code execution</li>
+<li>Complete system compromise</li>
+<li>Arbitrary file operations</li>
+<li>Internal network reconnaissance via SSRF</li>
+<li>Privilege escalation to root</li>
+</ul>
+<hr>
+<h2 id="timeline">Timeline:</h2>
+<ul>
+<li><strong>Discovery</strong>: August 2020</li>
+<li><strong>Public Disclosure</strong>: August 27, 2020</li>
+</ul>
+<hr>
+<p><em>For questions or additional details about this research, please contact me via the channels listed on my <a href="/about/">About</a> page.</em></p>
+
+                </div>
+            </article>
+
+            <hr />
+
+            <div class="post-info">
+                
+    <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg>
+
+        <span class="tag"><a href="//localhost:1313/tags/vulnerability-research/">vulnerability-research</a></span>
+        <span class="tag"><a href="//localhost:1313/tags/rce/">rce</a></span>
+        <span class="tag"><a href="//localhost:1313/tags/web-security/">web-security</a></span>
+        <span class="tag"><a href="//localhost:1313/tags/cve/">cve</a></span>
+        
+    </p>
+
+                
+    <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-folder meta-icon"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+
+        <span class="tag"><a href="//localhost:1313/categories/research/">research</a></span>
+        
+    </p>
+
+            </div>
+        </main>
+    </div>
+
+
+            
+                <footer class="footer">
+    
+    
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+<script type="text/javascript" src="/bundle.min.08b680078a3cf9c69e3dd217a5aa52cfddd4a1d850f8cdff127fdd7421a71f8b2b474be69386f67819edace92273916e7230c9054f38107db9dc6730b3530ab5.js" integrity="sha512-CLaAB4o8&#43;caePdIXpapSz93UodhQ&#43;M3/En/ddCGnH4srR0vmk4b2eBntrOkic5FucjDJBU84EH253Gcws1MKtQ=="></script>
+
+
+
+
+    </body>
+</html>
