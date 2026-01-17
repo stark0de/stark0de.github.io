@@ -2,18 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Windows-Internals on Daniel Monzón - stark0de</title>
-    <link>//localhost:1313/tags/windows-internals/</link>
+    <link>http://localhost:1313/tags/windows-internals/</link>
     <description>Recent content in Windows-Internals on Daniel Monzón - stark0de</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
     <lastBuildDate>Mon, 21 Nov 2022 00:00:00 +0000</lastBuildDate>
-    <atom:link href="//localhost:1313/tags/windows-internals/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/windows-internals/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>How to Accidentally Crash Windows Defender (and Explorer.exe) - Research Summary</title>
-      <link>//localhost:1313/research/windows-defender-crash/</link>
+      <link>http://localhost:1313/research/windows-defender-crash/</link>
       <pubDate>Mon, 21 Nov 2022 00:00:00 +0000</pubDate>
-      <guid>//localhost:1313/research/windows-defender-crash/</guid>
+      <guid>http://localhost:1313/research/windows-defender-crash/</guid>
       <description>&lt;h2 id=&#34;note&#34;&gt;Note&lt;/h2&gt;&#xA;&lt;p&gt;&lt;strong&gt;This article is a summary of research originally published in Spanish&lt;/strong&gt; at &lt;a href=&#34;https://blog.deephacking.tech/es/posts/como-cargarse-windows-defender-sin-querer/&#34;&gt;Deep Hacking&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;h2 id=&#34;overview&#34;&gt;Overview&lt;/h2&gt;&#xA;&lt;p&gt;This research explores an interesting discovery made while studying Windows process access rights and protected processes. The investigation led to accidentally suspending Windows Defender&amp;rsquo;s main process (MsMpEng.exe) and causing explorer.exe to crash - all through legitimate use of Windows API calls.&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;h2 id=&#34;background-protected-processes-in-windows&#34;&gt;Background: Protected Processes in Windows&lt;/h2&gt;&#xA;&lt;p&gt;Windows implements a security mechanism called &amp;ldquo;Protected Processes&amp;rdquo; that prevents even administrator-level users from tampering with critical system processes. Many system processes, antivirus solutions, and EDRs use this protection level, including Windows Defender.&lt;/p&gt;</description>
     </item>
   </channel>

@@ -14,12 +14,12 @@ Arbitrary File Deletion: Location: /lib/ajaxHandlers/ajaxDeleteAllLoggingFiles.p
 <meta name="keywords" content="homepage, blog, vulnerability-research, rce, web-security, cve" />
 <meta name="robots" content="noodp" />
 <meta name="theme-color" content="" />
-<link rel="canonical" href="//localhost:1313/research/pwning-rconfig/" />
+<link rel="canonical" href="http://localhost:1313/research/pwning-rconfig/" />
 
 
     <title>
         
-            Pwning rConfig: Multiple Vulnerabilities and RCE Chains :: Daniel Monzón - stark0de  — A simple theme for Hugo
+            Pwning rConfig: Multiple Vulnerabilities and RCE Chains :: Daniel Monzón - stark0de  — Security research blog
         
     </title>
 
@@ -33,14 +33,9 @@ Arbitrary File Deletion: Location: /lib/ajaxHandlers/ajaxDeleteAllLoggingFiles.p
 
 
 
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
-    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="">
-    <link rel="shortcut icon" href="/favicon.ico">
-    <meta name="msapplication-TileColor" content="">
-
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 
 
   <meta itemprop="name" content="Pwning rConfig: Multiple Vulnerabilities and RCE Chains">
@@ -51,11 +46,11 @@ Arbitrary File Deletion: Location: /lib/ajaxHandlers/ajaxDeleteAllLoggingFiles.p
   <meta itemprop="datePublished" content="2020-08-27T00:00:00+00:00">
   <meta itemprop="dateModified" content="2020-08-27T00:00:00+00:00">
   <meta itemprop="wordCount" content="361">
-  <meta itemprop="image" content="//localhost:1313/">
+  <meta itemprop="image" content="http://localhost:1313/">
   <meta itemprop="keywords" content="Vulnerability-Research,Rce,Web-Security,Cve">
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:image" content="//localhost:1313/">
+  <meta name="twitter:image" content="http://localhost:1313/">
   <meta name="twitter:title" content="Pwning rConfig: Multiple Vulnerabilities and RCE Chains">
   <meta name="twitter:description" content="Part I: Initial Vulnerability Discovery I recently conducted a security assessment of rConfig version 3.9.5 (www.rconfig.com), a network monitoring tool, and discovered several critical vulnerabilities. This is the first part of a multi-part series detailing these findings.
 Local File Inclusion (LFI): Location: /lib/crud/configcompare.crud.php
@@ -64,7 +59,7 @@ Arbitrary File Deletion: Location: /lib/ajaxHandlers/ajaxDeleteAllLoggingFiles.p
 
 
 
-    <meta property="og:url" content="//localhost:1313/research/pwning-rconfig/">
+    <meta property="og:url" content="http://localhost:1313/research/pwning-rconfig/">
   <meta property="og:site_name" content="Daniel Monzón - stark0de">
   <meta property="og:title" content="Pwning rConfig: Multiple Vulnerabilities and RCE Chains">
   <meta property="og:description" content="Part I: Initial Vulnerability Discovery I recently conducted a security assessment of rConfig version 3.9.5 (www.rconfig.com), a network monitoring tool, and discovered several critical vulnerabilities. This is the first part of a multi-part series detailing these findings.
@@ -80,7 +75,7 @@ Arbitrary File Deletion: Location: /lib/ajaxHandlers/ajaxDeleteAllLoggingFiles.p
     <meta property="article:tag" content="Rce">
     <meta property="article:tag" content="Web-Security">
     <meta property="article:tag" content="Cve">
-    <meta property="og:image" content="//localhost:1313/">
+    <meta property="og:image" content="http://localhost:1313/">
 
 
 
@@ -140,13 +135,6 @@ Arbitrary File Deletion: Location: /lib/ajaxHandlers/ajaxDeleteAllLoggingFiles.p
             
                 <li><a href="/talks">Talks</a></li>
             
-        <ul class="submenu">
-            <li class="dropdown">
-                <a href="javascript:void(0)" class="dropbtn">en</a>
-                <div class="dropdown-content">
-                </div>
-            </li>
-        </ul>
     </ul>
 </nav>
 
@@ -157,6 +145,11 @@ Arbitrary File Deletion: Location: /lib/ajaxHandlers/ajaxDeleteAllLoggingFiles.p
                         <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
                     </svg>
                 </span>
+                <span class="theme-toggle not-selectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+   <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+   3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+   13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+ </svg></span>
         </span>
     </span>
 </header>
@@ -172,7 +165,7 @@ Arbitrary File Deletion: Location: /lib/ajaxHandlers/ajaxDeleteAllLoggingFiles.p
             </div>
 
             <article>
-                <h2 class="post-title"><a href="//localhost:1313/research/pwning-rconfig/">Pwning rConfig: Multiple Vulnerabilities and RCE Chains</a></h2>
+                <h2 class="post-title"><a href="http://localhost:1313/research/pwning-rconfig/">Pwning rConfig: Multiple Vulnerabilities and RCE Chains</a></h2>
 
                 
                 
@@ -279,10 +272,10 @@ Arbitrary File Deletion: Location: /lib/ajaxHandlers/ajaxDeleteAllLoggingFiles.p
     <p>
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg>
 
-        <span class="tag"><a href="//localhost:1313/tags/vulnerability-research/">vulnerability-research</a></span>
-        <span class="tag"><a href="//localhost:1313/tags/rce/">rce</a></span>
-        <span class="tag"><a href="//localhost:1313/tags/web-security/">web-security</a></span>
-        <span class="tag"><a href="//localhost:1313/tags/cve/">cve</a></span>
+        <span class="tag"><a href="http://localhost:1313/tags/vulnerability-research/">vulnerability-research</a></span>
+        <span class="tag"><a href="http://localhost:1313/tags/rce/">rce</a></span>
+        <span class="tag"><a href="http://localhost:1313/tags/web-security/">web-security</a></span>
+        <span class="tag"><a href="http://localhost:1313/tags/cve/">cve</a></span>
         
     </p>
 
@@ -290,7 +283,7 @@ Arbitrary File Deletion: Location: /lib/ajaxHandlers/ajaxDeleteAllLoggingFiles.p
     <p>
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-folder meta-icon"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
 
-        <span class="tag"><a href="//localhost:1313/categories/research/">research</a></span>
+        <span class="tag"><a href="http://localhost:1313/categories/research/">research</a></span>
         
     </p>
 

@@ -30,9 +30,9 @@
         {{ $mainSections := .Site.Params.mainSections | default (slice "posts") }}
         {{ range first 10 (where .Site.RegularPages "Type" "in" $mainSections) }}
           <div class="post on-list" style="margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 1px solid #eee;">
-            <h3 class="post-title" style="margin-bottom: 0.5rem;">
+            <h2 class="post-title" style="margin-bottom: 0.5rem; font-size: 1.8rem;">
               <a href="{{ .Permalink }}">{{ .Title | markdownify }}</a>
-            </h3>
+            </h2>
             
             <div class="post-meta" style="margin-bottom: 1rem; color: #999; font-size: 0.9rem;">
               <time class="post-date">
@@ -54,11 +54,15 @@
             </div>
             {{ end }}
 
-            <div class="post-content" style="margin-bottom: 1rem;">
+            <div class="post-content" style="margin-bottom: 1rem; font-size: 1rem;">
               {{ if .Params.Description }}
                 {{ .Params.Description | markdownify }}
               {{ else }}
-                {{ if .Truncated }}
+                {{ $content := .RawContent }}
+                {{ $parts := split $content "---" }}
+                {{ if gt (len $parts) 3 }}
+                  {{ index $parts 2 | markdownify }}
+                {{ else if .Truncated }}
                   {{ .Summary }}
                 {{ end }}
               {{ end }}

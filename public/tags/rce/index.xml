@@ -2,19 +2,19 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Rce on Daniel Monzón - stark0de</title>
-    <link>//localhost:1313/tags/rce/</link>
+    <link>http://localhost:1313/tags/rce/</link>
     <description>Recent content in Rce on Daniel Monzón - stark0de</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
     <lastBuildDate>Thu, 27 Aug 2020 00:00:00 +0000</lastBuildDate>
-    <atom:link href="//localhost:1313/tags/rce/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/rce/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Pwning rConfig: Multiple Vulnerabilities and RCE Chains</title>
-      <link>//localhost:1313/research/pwning-rconfig/</link>
+      <link>http://localhost:1313/research/pwning-rconfig/</link>
       <pubDate>Thu, 27 Aug 2020 00:00:00 +0000</pubDate>
-      <guid>//localhost:1313/research/pwning-rconfig/</guid>
-      <description>&lt;h2 id=&#34;part-i-initial-vulnerability-discovery&#34;&gt;Part I: Initial Vulnerability Discovery&lt;/h2&gt;&#xA;&lt;p&gt;I recently conducted a security assessment of rConfig version 3.9.5 (&lt;a href=&#34;http://www.rconfig.com/&#34;&gt;www.rconfig.com&lt;/a&gt;), a network monitoring tool, and discovered several critical vulnerabilities. This is the first part of a multi-part series detailing these findings.&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;h3 id=&#34;local-file-inclusion-lfi&#34;&gt;Local File Inclusion (LFI):&lt;/h3&gt;&#xA;&lt;p&gt;&lt;strong&gt;Location&lt;/strong&gt;: &lt;code&gt;/lib/crud/configcompare.crud.php&lt;/code&gt;&lt;/p&gt;&#xA;&lt;p&gt;When comparing the &lt;code&gt;path_a&lt;/code&gt; parameter to &lt;code&gt;path_b&lt;/code&gt;, the file specified in &lt;code&gt;path_a&lt;/code&gt; is disclosed if both files are completely different. The following example demonstrates reading &lt;code&gt;/etc/passwd&lt;/code&gt;:&lt;/p&gt;&#xA;&lt;p&gt;&lt;img src=&#34;//localhost:1313/img/research/rconfig/lfi-config-1.png&#34; alt=&#34;LFI Configuration Compare&#34;&gt;&lt;/p&gt;</description>
+      <guid>http://localhost:1313/research/pwning-rconfig/</guid>
+      <description>&lt;h2 id=&#34;part-i-initial-vulnerability-discovery&#34;&gt;Part I: Initial Vulnerability Discovery&lt;/h2&gt;&#xA;&lt;p&gt;I recently conducted a security assessment of rConfig version 3.9.5 (&lt;a href=&#34;http://www.rconfig.com/&#34;&gt;www.rconfig.com&lt;/a&gt;), a network monitoring tool, and discovered several critical vulnerabilities. This is the first part of a multi-part series detailing these findings.&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;h3 id=&#34;local-file-inclusion-lfi&#34;&gt;Local File Inclusion (LFI):&lt;/h3&gt;&#xA;&lt;p&gt;&lt;strong&gt;Location&lt;/strong&gt;: &lt;code&gt;/lib/crud/configcompare.crud.php&lt;/code&gt;&lt;/p&gt;&#xA;&lt;p&gt;When comparing the &lt;code&gt;path_a&lt;/code&gt; parameter to &lt;code&gt;path_b&lt;/code&gt;, the file specified in &lt;code&gt;path_a&lt;/code&gt; is disclosed if both files are completely different. The following example demonstrates reading &lt;code&gt;/etc/passwd&lt;/code&gt;:&lt;/p&gt;&#xA;&lt;img src=&#34;http://localhost:1313/research/rconfig/lfi-config-1.png&#34; alt=&#34;LFI Configuration Compare&#34; style=&#34;max-width: 800px;&#34;&gt;&#xD;&#xA;&lt;br&gt;&lt;br&gt;&#xD;&#xA;&lt;img src=&#34;http://localhost:1313/research/rconfig/lfi-config-2.png&#34; alt=&#34;LFI /etc/passwd disclosure&#34;&gt;&#xD;&#xA;&lt;hr&gt;&#xA;&lt;h3 id=&#34;arbitrary-file-deletion&#34;&gt;Arbitrary File Deletion:&lt;/h3&gt;&#xA;&lt;p&gt;&lt;strong&gt;Location&lt;/strong&gt;: &lt;code&gt;/lib/ajaxHandlers/ajaxDeleteAllLoggingFiles.php&lt;/code&gt;&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

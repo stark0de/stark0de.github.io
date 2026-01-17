@@ -1,7 +1,7 @@
 {
 	"version": 3,
 	"file": "main.css",
-	"sourceRoot": "C:/Users/Daniel/Desktop/stark0de",
+	"sourceRoot": "C:/Users/Daniel/Desktop/Principal/Documentos/Marca personal/stark0de",
 	"sources": [
 		"themes/hugo-theme-hello-friend-ng/assets/scss/main.scss",
 		"themes/hugo-theme-hello-friend-ng/assets/scss/_normalize.scss",

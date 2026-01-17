@@ -11,6 +11,9 @@ pagination.pagerSize     = 10
   dateformNum     = "2006-01-02"
   dateformNumTime = "2006-01-02 15:04"
   mainSections = ["research"]
+  defaultTheme = "dark"  # Set default to dark mode
+  enableThemeToggle = true
+
 
   # Subtitle for home
   homeSubtitle = "Security research, red teaming and pentesting"
@@ -22,10 +25,11 @@ pagination.pagerSize     = 10
   enableSharingButtons = true
   
   # Show a global language switcher in the navigation bar
-  enableGlobalLanguageMenu = true
+  enableGlobalLanguageMenu = false
 
   # Metadata mostly used in document's head
-  description = "My new homepage or blog"
+  description = "Security research, red teaming and pentesting"
+
   keywords = "homepage, blog"
   images = [""]
 
@@ -42,7 +46,7 @@ pagination.pagerSize     = 10
     readOtherPosts = "Read other posts"
 
   [languages.en.params]
-    subtitle  = "A simple theme for Hugo"
+    subtitle  = "Security research blog"
 
     [languages.en.params.logo]
       logoText = "stark0de"
@@ -93,6 +97,10 @@ pagination.pagerSize     = 10
 [[params.social]]
   name = "twitter"
   url = "https://x.com/stark0de1"
+
+[[params.social]]
+  name = "telegram"
+  url = "https://t.me/stark0de"
 
 [[params.social]]
   name = "email"

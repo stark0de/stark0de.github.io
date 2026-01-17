@@ -13,6 +13,19 @@ I am a security researcher with over 6 years of experience in web pentesting, co
 
 Occasional speaker at security conferences such as: **hack0n**, **RootedCON Málaga**, **DragonJARCON**, etc. I hold multiple industry-recognized certifications, such as: **[OSCP](#current-certifications)**, **[CRTP](#current-certifications)**, **[eMAPT](#current-certifications)**, **[CARTP](#current-certifications)**, etc. I've also found multiple security vulnerabilities in open-source and commercial products, such as CVE-2020-27461 or CVE-2020-7361 and I'm always eager to learn more and find more and more vulnerabilities across complex infrastructures and codebases.
 
+<div style="text-align: center; margin: 40px 0;">
+  <a href="/cv/Daniel_Monzon_CV.pdf" download style="display: inline-block; padding: 15px 30px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 16px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.2s;">
+    📥 Download Full CV
+  </a>
+</div>
+
+<style>
+a[href$=".pdf"]:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+</style>
+
 ---
 
 ---
