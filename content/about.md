@@ -77,7 +77,7 @@ a[href$=".pdf"]:hover {
 
 ## Professional Experience
 
-### <img src="/img/companies/halborn.png" width="24" height="24" style="vertical-align: middle; margin-right: 8px;">Offensive Security Engineer | Halborn
+### <img src="/img/companies/halborn.png" width="24" height="24" style="vertical-align: middle; margin-right: 8px;">Offensive Security Engineer | Halborn {#offensive-security-engineer--halborn}
 **December 2025 - Present**
 
 Currently working on advanced security assessments for blockchain and Web3-related entities, including:
@@ -89,7 +89,7 @@ Currently working on advanced security assessments for blockchain and Web3-relat
 
 ---
 
-### <img src="/img/companies/siemens.jpg" width="24" height="24" style="vertical-align: middle; margin-right: 8px;">Red Team Operator | Siemens
+### <img src="/img/companies/siemens.jpg" width="24" height="24" style="vertical-align: middle; margin-right: 8px;">Red Team Operator | Siemens {#red-team-operator--siemens}
 **January 2024 - December 2025**
 
 * Executed red team engagements simulating advanced persistent threats
@@ -100,7 +100,7 @@ Currently working on advanced security assessments for blockchain and Web3-relat
 
 ---
 
-### <img src="/img/companies/accenture.png" width="24" height="24" style="vertical-align: middle; margin-right: 8px;">Security Consultant | Innotec Security (now Accenture)
+### <img src="/img/companies/accenture.png" width="24" height="24" style="vertical-align: middle; margin-right: 8px;">Security Consultant | Innotec Security (now Accenture) {#security-consultant--innotec-security-now-accenture}
 **July 2021 - December 2023**
 
 Delivered comprehensive security assessments across diverse technologies and environments:
@@ -155,7 +155,7 @@ Conducted security assessments and contributed to the security community:
 
 <div style="display: flex; align-items: center; margin-bottom: 10px;">
   <img src="/img/certs/corelan.png" width="28" height="28" style="margin-right: 10px;">
-  <strong>Corelan Heap Exploiting Masterclass</strong>
+  <strong><a href="https://www.credly.com/badges/9ed218f9-3538-46b0-9b71-0894d77c9183" target="_blank">Corelan Heap Exploiting Masterclass</strong>
 </div>
 
 <div style="display: flex; align-items: center; margin-bottom: 10px;">
@@ -169,7 +169,7 @@ Conducted security assessments and contributed to the security community:
 </div>
 
 <div style="display: flex; align-items: center; margin-bottom: 10px;">
-  <img src="/img/certs/cartp.png" width="28" height="28" style="margin-right: 10px;">
+  <img src="/img/certs/CARTP.png" width="28" height="28" style="margin-right: 10px;">
   <strong><a href="https://www.credential.net/743bc3b1-5bfd-4646-85c8-9932cdc1c5f1" target="_blank">PentesterAcademy - Certified Azure Red Team Professional (CARTP)</a></strong>
 </div>
 
